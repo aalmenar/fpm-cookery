@@ -119,12 +119,12 @@ module FPM
         end
 
         def detect_osfamily
-          # Try ID_LIKE from os-release first
-          id_like = os_release_data['ID_LIKE']&.downcase&.split&.first
-          return id_like.to_sym if id_like && !id_like.empty?
+          # Try ID_LIKE from os-release first, then fall back to platform mapping
+          id_like = os_release_data['ID_LIKE']&.downcase&.split&.first&.to_sym
+          source = id_like || platform
 
-          # Map platform to family
-          case platform
+          # Normalize to canonical family names
+          case source
           when :ubuntu, :debian, :linuxmint, :pop, :elementary, :raspbian, :kali
             :debian
           when :centos, :rhel, :redhat, :fedora, :rocky, :almalinux, :oracle, :amzn, :scientific, :cloudlinux

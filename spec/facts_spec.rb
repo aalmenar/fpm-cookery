@@ -115,7 +115,7 @@ describe "Facts" do
       end
 
       it "detects osfamily as redhat" do
-        expect(FPM::Cookery::Facts.osfamily).to eq(:rhel)
+        expect(FPM::Cookery::Facts.osfamily).to eq(:redhat)
       end
     end
 
