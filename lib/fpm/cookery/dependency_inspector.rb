@@ -4,6 +4,7 @@ require 'fpm/cookery/log'
 begin
   require 'puppet'
   require 'puppet/resource'
+  require 'puppet/resource/type'
   require 'puppet/transaction/report'
 
   # Init Puppet before using it
