@@ -33,4 +33,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "safe_yaml", "~> 1.0.4"
   s.add_runtime_dependency "uri-ssh_git", "~> 2.0"
   s.add_runtime_dependency "base64", "~> 0.3.0"
+  s.add_runtime_dependency "racc" if RUBY_VERSION >= "3.4"
+  s.add_runtime_dependency "syslog" if RUBY_VERSION >= "3.4"
 end
