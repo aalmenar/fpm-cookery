@@ -35,4 +35,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "base64", "~> 0.3.0"
   s.add_runtime_dependency "racc" if RUBY_VERSION >= "3.4"
   s.add_runtime_dependency "syslog" if RUBY_VERSION >= "3.4"
+  s.add_runtime_dependency "ostruct" if RUBY_VERSION >= "3.4"
+  s.add_runtime_dependency "benchmark" if RUBY_VERSION >= "3.4"
 end
