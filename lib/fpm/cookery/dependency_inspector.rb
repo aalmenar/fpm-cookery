@@ -1,15 +1,41 @@
 require 'fpm/cookery/facts'
 require 'fpm/cookery/log'
 
+PUPPET_AVAILABLE = false
+
 begin
   require 'puppet'
-  require 'puppet/resource'
-  require 'puppet/resource/type'
-  require 'puppet/transaction/report'
 
   # Init Puppet before using it
   Puppet.initialize_settings
-rescue Exception
+
+  # Load required Puppet components
+  require 'puppet/resource'
+  require 'puppet/transaction/report'
+
+  # Puppet 8.x has a bug where puppet/resource.rb references Puppet::Resource::Type
+  # but doesn't explicitly require it. We need to ensure it's loaded before
+  # Puppet::Resource.new() is called.
+  begin
+    require 'puppet/resource/type'
+  rescue LoadError => e
+    # If the file doesn't exist, try to check if the constant is available anyway
+    unless defined?(Puppet::Resource::Type)
+      Log.warn "Puppet::Resource::Type could not be loaded: #{e.message}"
+      raise "Puppet::Resource::Type is required but not available"
+    end
+  end
+
+  # Verify the constant is actually defined
+  unless defined?(Puppet::Resource::Type)
+    raise "Puppet::Resource::Type constant is not defined after loading puppet/resource/type"
+  end
+
+  PUPPET_AVAILABLE = true
+rescue Exception => e
+  # Log the error for debugging
+  Log.warn "Failed to load Puppet: #{e.class}: #{e.message}" if defined?(Log)
+  Log.warn "Backtrace: #{e.backtrace.first(5).join("\n")}" if defined?(Log) && e.backtrace
 end
 
 module FPM
