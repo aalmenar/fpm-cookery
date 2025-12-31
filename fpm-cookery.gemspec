@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "fpm", "~> 1.1"
   s.add_runtime_dependency "facter"
   s.add_runtime_dependency "puppet", ">= 3.4", "< 9.0"
+  s.add_runtime_dependency "hiera", "~> 3.12"
   s.add_runtime_dependency "addressable", "~> 2.8"
   s.add_runtime_dependency "systemu"
   s.add_runtime_dependency "json", "~> 2.6"
